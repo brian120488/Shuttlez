@@ -4,10 +4,10 @@ import { ObjectId } from 'mongodb';
 export default async function OrderPage({ params }: { params: Promise<{ orderId: string }> }) {
   const { orderId } = await params;
   
-  const db = mongo.db('shuttlez');
-  const orders = db.collection('orders');
+  const client = await mongo;
+  const db = client.db('shuttlez');  
+  const orders = db.collection('orders'); 
 
-  // Find the order by _id (must be ObjectId type)
   const order = await orders.findOne({ _id: new ObjectId(orderId) });
 
   if (!order) {
@@ -20,3 +20,4 @@ export default async function OrderPage({ params }: { params: Promise<{ orderId:
       <pre>{JSON.stringify(order, null, 2)}</pre>
     </div>
   );
+}
