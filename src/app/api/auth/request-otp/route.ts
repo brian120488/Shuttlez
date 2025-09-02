@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { redis } from '@/lib/redis'
+// import { redis } from '@/lib/redis'
 import { twilio } from '@/lib/twilio'
 
 export async function POST(req: NextRequest) {

@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phone, setPhone] = useState("");
-  const [sessionId, setSessionId] = useState("");
   const [otp, setOtp] = useState("");
   const [message, setMessage] = useState("");
   const router = useRouter();
@@ -44,13 +43,12 @@ export default function LoginPage() {
       });
       if (res.ok) {
         setMessage("Login successful!");
-        // Save JWT in memory/localStorage or set cookie
         router.replace('/create');
       } else {
         setMessage("Invalid OTP");
       }
     } catch (err) {
-      setMessage("Error verifying OTP");
+      setMessage("Error verifying OTP: " + err);
     }
   }
 
