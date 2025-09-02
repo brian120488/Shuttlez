@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const [name, setName] = useState("");
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -14,7 +15,6 @@ export default function LoginPage() {
     e.preventDefault();
     setMessage("Sending OTP...");
     try {
-      // Call server action
       const res = await fetch("/api/auth/request-otp", {
         method: "POST",
         body: JSON.stringify({ phone }),

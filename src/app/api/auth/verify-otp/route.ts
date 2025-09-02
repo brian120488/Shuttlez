@@ -10,8 +10,6 @@ export async function POST(req: NextRequest) {
     .services('VAe4fa808fabae6893375a8cc14e04ade2')
     .verificationChecks.create({ to: phone, code: otp });
 
-  console.log(verification_check);
-
   if (verification_check.status === 'approved') {
     // Create JWT using jose
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);

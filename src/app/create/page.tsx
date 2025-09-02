@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function EventFormPage() {
+export default function OrderFormPage() {
   const [form, setForm] = useState({
     title: "",
     shuttleType: "",
@@ -11,6 +12,7 @@ export default function EventFormPage() {
   });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -23,7 +25,7 @@ export default function EventFormPage() {
     setMessage("");
 
     try {
-      const res = await fetch("/api/events", {
+      const res = await fetch("/api/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -35,6 +37,7 @@ export default function EventFormPage() {
         setMessage("Event submitted successfully!");
         // Clear form
         setForm({ title: "", shuttleType: "", goal: "", description: "" });
+        router.replace("/join");
       } else {
         setMessage(data.error || "Failed to submit event.");
       }
@@ -90,7 +93,7 @@ export default function EventFormPage() {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
         >
-          {loading ? "Submitting..." : "Submit Event"}
+          {loading ? "Creating..." : "Create Order"}
         </button>
       </form>
       {message && <p className="mt-4 text-center text-gray-700">{message}</p>}
