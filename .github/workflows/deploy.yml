@@ -1,0 +1,43 @@
+name: CI/CD - Shuttlez App
+
+on:
+  push:
+    branches:
+      - main   # only deploy on main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Run tests
+      - name: Run tests
+        run: npm test
+
+      # 5. Build Next.js app
+      - name: Build project
+        run: npm run build
+
+      # 6. Deploy to AWS Lambda using Serverless Framework
+      - name: Deploy with Serverless
+        uses: serverless/github-action@v3
+        with:
+          args: deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}

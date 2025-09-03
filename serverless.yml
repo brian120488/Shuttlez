@@ -1,0 +1,21 @@
+service: shuttlez-app
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ${env:AWS_REGION}
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI}
+    JWT_SECRET: ${env:JWT_SECRET}
+    TWILIO_ACCOUNT_SID: ${env:TWILIO_ACCOUNT_SID}
+    TWILIO_AUTH_TOKEN: ${env:TWILIO_AUTH_TOKEN}
+    TWILIO_SERVICE_SID: ${env:TWILIO_SERVICE_SID}
+
+functions:
+  nextApp:
+    handler: handler.render
+    events:
+      - httpApi: '*'
+
+plugins:
+  - serverless-nextjs-plugin
